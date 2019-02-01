@@ -23,7 +23,10 @@ apple_library(
     srcs = glob([
         "**/*.swift",
     ]),
-    frameworks = [
-        '$PLATFORM_DIR/vendors/Realm-static.framework',
-    ],
+    # frameworks = [
+    #     '$PLATFORM_DIR/vendors/Realm-static.framework',
+    # ],
+    deps = [
+    	'//Pods:Realm'
+    ]
 )

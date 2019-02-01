@@ -5,8 +5,9 @@ This project attempts to create a BUCK project with Realm. The realm framework h
 ### Generate the project
 
 ```bash
+pod install
 make project
 ```
 
 ### Current issue
-XCode build fails with `No such module 'Realm'`
+XCode fails to build Realm code

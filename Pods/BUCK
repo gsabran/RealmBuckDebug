@@ -1,0 +1,95 @@
+load("//Config:buck_rule_macros.bzl", "apple_pod_lib", "files_mapping")
+
+apple_library(
+    name = "Realm",
+    configs = {
+        "Debug": {
+            "IPHONEOS_DEPLOYMENT_TARGET": "11.0",
+            "SDKROOT": "iphoneos",
+            "GCC_OPTIMIZATION_LEVEL": "0",
+            "SWIFT_OPTIMIZATION_LEVEL": "-Onone",
+            "SWIFT_WHOLE_MODULE_OPTIMIZATION": "YES",
+            "ONLY_ACTIVE_ARCH": "YES",
+            "SKIP_INSTALL": "YES",
+        },
+        "Profile": {
+            "IPHONEOS_DEPLOYMENT_TARGET": "11.0",
+            "SDKROOT": "iphoneos",
+            "GCC_OPTIMIZATION_LEVEL": "0",
+            "SWIFT_OPTIMIZATION_LEVEL": "-Onone",
+            "SWIFT_WHOLE_MODULE_OPTIMIZATION": "YES",
+            "ONLY_ACTIVE_ARCH": "YES",
+            "SKIP_INSTALL": "YES",
+        }
+    },
+    modular = True,
+    compiler_flags = ["-w"],
+    visibility = ["PUBLIC"],
+    
+    exported_headers = glob([
+        "Realm/include/**/RLMArray.h",
+        "Realm/include/**/RLMCollection.h",
+        "Realm/include/**/RLMConstants.h",
+        "Realm/include/**/RLMListBase.h",
+        "Realm/include/**/RLMMigration.h",
+        "Realm/include/**/RLMObject.h",
+        "Realm/include/**/RLMObjectBase.h",
+        "Realm/include/**/RLMObjectSchema.h",
+        "Realm/include/**/RLMOptionalBase.h",
+        "Realm/include/**/RLMPlatform.h",
+        "Realm/include/**/RLMProperty.h",
+        "Realm/include/**/RLMRealm.h",
+        "Realm/include/**/RLMRealm+Sync.h",
+        "Realm/include/**/RLMRealmConfiguration+Sync.h",
+        "Realm/include/**/RLMRealmConfiguration.h",
+        "Realm/include/**/RLMResults.h",
+        "Realm/include/**/RLMSchema.h",
+        "Realm/include/**/RLMSyncConfiguration.h",
+        "Realm/include/**/RLMSyncCredentials.h",
+        "Realm/include/**/RLMSyncManager.h",
+        "Realm/include/**/RLMSyncPermission.h",
+        "Realm/include/**/RLMSyncSession.h",
+        "Realm/include/**/RLMSyncSubscription.h",
+        "Realm/include/**/RLMSyncUser.h",
+        "Realm/include/**/RLMSyncUtil.h",
+        "Realm/include/**/RLMThreadSafeReference.h",
+        "Realm/include/**/NSError+RLMSync.h",
+        "Realm/include/**/Realm.h",
+        "Realm/include/**/RLMRealm_Dynamic.h",
+        "Realm/include/**/RLMObjectBase_Dynamic.h",
+    ]),
+    headers = files_mapping([
+        "Realm/include/**/*.h",
+        "Realm/include/**/*.hpp",
+    ], dir_mappings=[
+        ("Realm/include/core/", ""),
+        ("Realm/include/", ""),
+    ]),
+    srcs = glob([
+        "Realm/Realm/*.m",
+        "Realm/Realm/*.mm",
+        "Realm/Realm/ObjectStore/src/*.cpp",
+        "Realm/Realm/ObjectStore/src/sync/*.cpp",
+        "Realm/Realm/ObjectStore/src/sync/impl/*.cpp",
+        "Realm/Realm/ObjectStore/src/sync/impl/apple/*.cpp",
+        "Realm/Realm/ObjectStore/src/impl/*.cpp",
+        "Realm/Realm/ObjectStore/src/impl/apple/*.cpp",
+        "Realm/Realm/ObjectStore/src/util/*.cpp",
+        "Realm/Realm/ObjectStore/src/util/apple/*.cpp",
+    ]),
+    extra_xcode_files = [
+        "Realm/Realm/Realm.modulemap",
+    ],
+)
+
+apple_pod_lib(
+    name = "RealmSwift",
+    visibility = ["PUBLIC"],
+    swift_version = "4",
+    deps = [
+        "//Pods:Realm"
+    ],
+    srcs = glob([
+        "RealmSwift/**/*.swift",
+    ]),
+)
