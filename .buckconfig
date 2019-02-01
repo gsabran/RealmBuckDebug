@@ -1,0 +1,38 @@
+[cxx]
+  default_platform = iphonesimulator-x86_64
+  cflags = -g -fmodules -fobjc-arc -D BUCK -w
+  cxxflags = -fobjc-arc -std=c++14 -D DEBUG -g
+  combined_preprocess_and_compile = true
+  pch_enabled = false
+  ldflags = -Xlinker -objc_abi_version -Xlinker 2 -fobjc-arc -fobjc-link-runtime
+  
+
+[swift]
+  version = 4.2
+  compiler_flags = -swift-version 4.2 -DBUCK -enable-testing -g -Onone -whole-module-optimization
+  use_filelist = true
+
+[apple]
+  use_swift_delegate = false
+  use_header_maps_in_xcode = true
+  generate_missing_umbrella_headers = true
+  iphonesimulator_target_sdk_version = 11.0
+  iphoneos_target_sdk_version = 11.0
+  provisioning_profile_read_command = security cms -Di
+  xctool_default_destination_specifier = name=iPhone 7,platform=iOS Simulator
+  xctool_path = vendor/xctool/bin/xctool
+
+[parser]
+  polyglot_parsing_enabled = true
+  default_build_file_syntax = SKYLARK
+
+[project]
+  ide_force_kill = always
+  ide = xcode
+  allow_symlinks = forbid
+  ignore = .git
+
+[cache]
+  mode = dir
+  dir_max_size = 5GB
+

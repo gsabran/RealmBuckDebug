@@ -1,0 +1,56 @@
+config = {
+    "IPHONEOS_DEPLOYMENT_TARGET": "11.0",
+    "SDKROOT": "iphoneos",
+    "GCC_OPTIMIZATION_LEVEL": "0",
+    "SWIFT_OPTIMIZATION_LEVEL": "-Onone",
+    "SWIFT_WHOLE_MODULE_OPTIMIZATION": "YES",
+    "ONLY_ACTIVE_ARCH": "YES",
+    "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES": "YES",
+    "DEVELOPMENT_LANGUAGE": "Swift",
+    "PRODUCT_BUNDLE_IDENTIFIER": "come.realmdebug.app",
+    "SKIP_INSTALL": "NO",
+    "CODE_SIGN_IDENTITY": "iPhone Developer",
+    "CODE_SIGN_STYLE": "Automatic",
+    "DEVELOPMENT_TEAM": "GP78T2GNXD",
+    "PROVISIONING_PROFILE_SPECIFIER": "",
+}
+
+apple_binary(
+    name = "RealmDebugBinary",
+    visibility = ["PUBLIC"],
+    configs = {
+        "Debug": config,
+        "Profile": config,
+    },
+    swift_version = "4.2",
+    srcs = glob([
+        "*.m",
+    ]),
+    headers = glob([
+        "*.h",
+    ]),
+    deps = [
+        '//Persistence:Persistence',
+    ],
+)
+
+xcode_workspace_config(
+    name = "workspace",
+    workspace_name = "RealmDebug",
+    src_target = ":RealmDebugBundle",
+    action_config_names = {"profile": "Profile"},
+)
+
+apple_bundle(
+    name = "RealmDebugBundle",
+    visibility = ["PUBLIC"],
+    extension = "app",
+    binary = ":RealmDebugBinary",
+    product_name = "RealmDebug",
+    info_plist = "Info.plist",
+)
+
+apple_package(
+    name = "RealmDebugPackage",
+    bundle = ":RealmDebugBundle",
+)

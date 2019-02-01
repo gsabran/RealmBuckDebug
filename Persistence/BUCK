@@ -1,0 +1,29 @@
+
+config = {
+	"SWIFT_WHOLE_MODULE_OPTIMIZATION": "YES",
+    "IPHONEOS_DEPLOYMENT_TARGET": "11.0",
+    "SDKROOT": "iphoneos",
+    "GCC_OPTIMIZATION_LEVEL": "0",
+    "SWIFT_OPTIMIZATION_LEVEL": "-Onone",
+    "ONLY_ACTIVE_ARCH": "YES",
+    "SKIP_INSTALL": "YES",
+}
+
+apple_library(
+    name = "Persistence",
+    swift_version = "4.2",
+    configs = {
+    	"Debug": config,
+    	"Profile": config,
+    },
+    modular = True,
+    compiler_flags = ["-Werror"],
+    swift_compiler_flags = ["-warnings-as-errors"],
+    visibility = ["PUBLIC"],
+    srcs = glob([
+        "**/*.swift",
+    ]),
+    frameworks = [
+        '$PLATFORM_DIR/vendors/Realm-static.framework',
+    ],
+)
